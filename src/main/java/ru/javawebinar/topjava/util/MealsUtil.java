@@ -12,7 +12,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
-    public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
     private MealsUtil() {
     }
@@ -35,7 +34,7 @@ public class MealsUtil {
         return meals.stream()
                 .filter(filter)
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static MealTo createTo(Meal meal, boolean excess) {
