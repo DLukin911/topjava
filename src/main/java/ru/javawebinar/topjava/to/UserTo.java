@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.to;
 
 import org.hibernate.validator.constraints.Range;
+import ru.javawebinar.topjava.HasIdAndEmail;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,21 +12,18 @@ import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class UserTo extends BaseTo implements Serializable {
+public class UserTo extends NamedTo implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    @NotBlank
-    @Size(min = 2, max = 100)
-    private String name;
 
     @Email
     @NotBlank
     @Size(max = 100)
+    @NoHtml // https://stackoverflow.com/questions/17480809
     private String email;
 
     @NotBlank
-    @Size(min = 5, max = 32, message = "length must be between 5 and 32 characters")
+    @Size(min = 5, max = 32)
     private String password;
 
     @Range(min = 10, max = 10000)
@@ -35,8 +34,7 @@ public class UserTo extends BaseTo implements Serializable {
     }
 
     public UserTo(Integer id, String name, String email, String password, int caloriesPerDay) {
-        super(id);
-        this.name = name;
+        super(id, name);
         this.email = email;
         this.password = password;
         this.caloriesPerDay = caloriesPerDay;
@@ -50,14 +48,7 @@ public class UserTo extends BaseTo implements Serializable {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getEmail() {
         return email;
     }
